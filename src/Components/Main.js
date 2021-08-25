@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import Signup from './Signup'
 import Login from './Login';
 import Box from '@material-ui/core/Box';
@@ -7,22 +7,23 @@ import Avatar from '@material-ui/core/Avatar';
 import logo from './logomain.png';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
+import { useHistory } from 'react-router-dom';
+import { AuthContext } from '../Context/AuthProvider';
 const useStyles = makeStyles((theme) => ({
     outerContainer: {
         height: '100vh',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: '#2d2e2e',
+        backgroundColor: '#121212',
     },
     innerContainer: {
-        backgroundColor: 'red',
         height: '28rem',
         width: '42rem',
-        borderRadius: '50px',
-        backgroundColor: '#2d2e2e',
-        boxShadow: ` -20px -20px 74px #202020,
-        20px 20px 74px #3b3c3c`,
+        borderRadius: '14px',
+        background:`linear-gradient(145deg, #131313, #101010)`,
+        boxShadow: `8px 8px 8px #0d0d0d,
+        -8px -8px 8px #171717`,
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center'
@@ -39,15 +40,40 @@ const useStyles = makeStyles((theme) => ({
     nameFont:{
         fontFamily: 'Pacifico, cursive',
         fontSize:'2.5rem',
-        color:"#09e1e5",
-
+        color:"#2fbfce",
+    },
+    loginBtn:{
+        borderColor: '#31BDCE',
+        color: '#31BDCE',
         
-    }
+        margin:'1em',
+        marginTop:'0.1em'
+    },
+    input: {
+        display: 'none',
+    },
+    edit:{
+        background:'blue',
+    },
+    signUpBtn: {
+        borderColor: '#ff878d',
+        color: '#ff878d',
+        
+        margin:'1em',
+        marginTop:'0.1em'
+    },
 
 }));
 function Main() {
     const classes = useStyles();
     const [element,setElement]=useState("");
+    const {currentUser}=useContext(AuthContext);
+    const history=useHistory();
+    useEffect(()=>{
+        if(currentUser){
+            history.push('/');
+        }
+    },[])
     return (
         <>
             <div className={classes.outerContainer}>
@@ -55,12 +81,19 @@ function Main() {
                     <div className={classes.logoContainer}>
                         <Avatar alt="Remy Sharp" src={logo} style={{ height: '8rem', width: '8rem' }} />
                         <span className={classes.nameFont}>iReels</span>
-                        <Typography variant="h6" component="h1" style={{color:'white',fontFamily:'Averia Libre, cursive'}}>
+                        <Typography variant="h6" component="h1" style={{color:'#BDBDBD',fontFamily:'Averia Libre, cursive'}}>
                            Let's Connect
                         </Typography>
                         <Box mt={3}>
-                            <Button variant="outlined" color="primary" style={{margin:'10px'}} onClick={()=>{setElement("login")}}>LOGIN</Button>
-                            <Button variant="outlined" color="primary" style={{margin:'10px'}} onClick={()=>{setElement("signup")}}>SIGNUP</Button>
+                            {/* <Button variant="outlined" color="primary" style={{margin:'10px'}} onClick={()=>{setElement("login")}}>LOGIN</Button>
+                            <Button variant="outlined" color="primary" style={{margin:'10px'}} onClick={()=>{setElement("signup")}}>SIGNUP</Button> */}
+                            <Button variant="outlined" className={classes.loginBtn} onClick={()=>{setElement("login")}}>
+                                Login
+                            </Button>
+                            <Button variant="outlined" className={classes.signUpBtn} onClick={()=>{setElement("signup")}}>
+                                Signup
+                            </Button>
+                            
                         </Box>
                     </div>
                     {element=="login"?<Login/>:element=="signup"?<Signup/>:<></>}

@@ -16,6 +16,9 @@ export const auth=firebase.auth();
 const firestore=firebase.firestore();
 export const database={
     users:firestore.collection('users'),
+    posts:firestore.collection('posts'),
+    comments:firestore.collection('comments'),
+    messages:firestore.collection('messages'),
     getCurrentTimeStamp:firebase.firestore.FieldValue.serverTimestamp
 }
 export const storage=firebase.storage();

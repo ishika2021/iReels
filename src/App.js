@@ -1,19 +1,26 @@
-import logo from './logo.svg';
 import './App.css';
-import Signup from './Components/Signup';
-
+import Feed from './Components/Feed';
 import Main from './Components/Main';
-import Login from './Components/Login';
-import AuthProvider, { AuthContext } from './Context/AuthProvider';
+import AuthProvider from './Context/AuthProvider';
+import PrivateRoute from './Components/PrivateRoute';
+import Profile from './Components/Profile';
+import Chat from './Components/Chat';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 function App() {
   return (
-   <AuthProvider>
-    <Main/>
+    <Router>
+      <AuthProvider>
+        <Switch>
+          <PrivateRoute exact path='/' component={Feed} />
+          <PrivateRoute exact path='/profile' component={Profile} />
+          <PrivateRoute exact path='/chat' component={Chat} />
+          <Route path='/main' component={Main} />
+    
 
-   </AuthProvider>
-  
-  // <Logo/>
-  
+        </Switch>
+      </AuthProvider>
+    </Router>
+
   );
 }
 
